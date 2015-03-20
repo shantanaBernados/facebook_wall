@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 
-<p>{{ user }}</p>
-
 {% block content %}
 
+<p>{{ user }}</p>
+
 <div class="status">
-    <form id="id" method="post" action='login/'>
+    <form id="id" method="post" action='/'>
         {% csrf_token %}
         {{ form }}
         <input type="submit" class="uibutton confirm" value="Post" />
     </form>
 </div>  
+
+<form id="id" method="post" action='logout/'>
+    {% csrf_token %}
+    <input type="submit" class="uibutton confirm" value="Logout" />
+</form>
 
 {% endblock %}
 

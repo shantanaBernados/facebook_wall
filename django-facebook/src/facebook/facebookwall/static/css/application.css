@@ -1,15 +1,20 @@
 body {
-    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    /*font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
     font-size: 11px;
     text-align: left;
     direction: ltr;
     color: #141823;
     line-height: 1.28;
-    overflow-y: scroll;
+    overflow-y: scroll;*/
+
+    font-family: "lucida grande" ,tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    color: #333333;
+
 }
 
 #header-container {  
-    background-image: url('../images/bg-header.png');
+    background-color: #3b5998;
     background-repeat: repeat-x;
     background-size: auto;
     background-position: 0 0;
@@ -32,4 +37,41 @@ h1 a:link {
     color: white;
     cursor: pointer;
     font-size: 30px;
+}
+
+.float_right {
+    float: right;
+}
+
+.float_left {
+    float: left;
+}
+
+.fb_logo {
+    width: 170px;
+    height: 36px;
+    background-position: -98px -481px;
+}
+
+.login_lastrow {
+    color: #9daccb;
+    font-weight: normal;
+}
+
+.loggedout_menubar {
+    margin: 0 auto;
+    padding-top: 13px;
+    width: 980px;
+}
+
+#content-container {
+    padding: 86px;
+    min-width: 100%;
+    border: 0;
+}
+
+#header-container label {
+    color: #fff;
+    font-weight: normal;
+    padding-left: 1px;
 }
