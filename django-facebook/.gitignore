@@ -8,4 +8,5 @@ downloads
 eggs
 parts
 src/*.egg-info
-
+*.dbsqlite
+*.dbsqlite3

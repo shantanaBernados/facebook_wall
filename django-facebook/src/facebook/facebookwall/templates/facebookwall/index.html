@@ -1,9 +1,4 @@
-{% load staticfiles %}
-
-<head>
-    <script src="../../static/scripts/jquery-2.1.3.min.js"></script>
-    <script src="../../static/scripts/application.js"></script>
-</head>
+{% extends "base.html" %}
 
 <p>{{ user }}</p>
 
@@ -13,7 +8,7 @@
     <form id="id" method="post" action='login/'>
         {% csrf_token %}
         {{ form }}
-        <input type="submit" value="Submit" />
+        <input type="submit" class="uibutton confirm" value="Post" />
     </form>
 </div>  
 
