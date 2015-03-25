@@ -54,7 +54,7 @@ def log_sign(request):
 
 def post(request):
     print request
-    return HttpResponse(response=200)
+    return HttpResponse('test')
 
 
 def comment(request):

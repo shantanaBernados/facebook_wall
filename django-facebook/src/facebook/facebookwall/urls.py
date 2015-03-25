@@ -10,4 +10,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', views.index, name='index'),
+    url(r'^post$', views.post, name='post'),
+    url(r'^comment/$', views.comment, name='post')
+    
 )

@@ -2,7 +2,7 @@
 
 {% block header_content %}
     <div class="float_right" style="">
-        <form id="logout_form" method="post" action='logout/'>
+        <form id="logout_form" method="post" action='{% url 'logout' %}'>
             {% csrf_token %}
             <input type="submit" class="uibutton confirm" value="Logout" />
         </form>        
@@ -11,15 +11,24 @@
 
 {% block content %}
 
-<p>{{ user }}</p>
+    <p>{{ user }}</p>
 
-<div class="status">
-    <form id="status_form" method="post" action='/'>
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" class="uibutton confirm" value="Post" />
-    </form>
-</div>  
+    <div id="status">
+        <form id="status_form" method="post"> 
+        <!-- action='{% url 'post'}'> -->
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="uibutton confirm" value="Post" />
+        </form>
+    </div> 
+    <div id="posts-container">
+        <p>POSTS</p>
+        {% block posts %}
+        {% endblock %}
+        <div id="posts">
+            
+        </div>
+    </div> 
 
 {% endblock %}
 
