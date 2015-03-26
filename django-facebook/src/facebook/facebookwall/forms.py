@@ -2,15 +2,19 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+from models import Post
 
-class PostForm(forms.Form):
-    post = forms.CharField(
-        label='Status',
-        max_length=100,
-        widget=forms.Textarea(
-            attrs={'placeholder': 'What\'s on your mind?'}
-        )
-    )
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['post']
+        widget = {
+            'post': forms.Textarea(
+                attrs={'placeholder': 'What\'s on your mind?', 
+                       'required': True}
+            ),
+        }
 
 
 class LoginForm(forms.Form):

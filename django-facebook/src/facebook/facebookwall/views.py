@@ -5,13 +5,19 @@ from forms import PostForm, RegisterForm, LoginForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.generic.edit import FormView, CreateView
+from django.template.loader import render_to_string
+
+from models import Post
 
 # Create your views here.
 
 
 @login_required(login_url='/login/')
 def index(request):
-    return render(request, 'facebookwall/index.html', {'form': PostForm()})
+    posts = Post.objects.all()
+    print posts
+    return render(request, 'facebookwall/index.html',
+                  {'form': PostForm(), 'posts': posts})
 
 
 class SignupView(CreateView):
@@ -53,8 +59,15 @@ def log_sign(request):
 
 
 def post(request):
-    print request
-    return HttpResponse('test')
+    if request.is_ajax:
+        if request.method == 'POST':
+            p = Post.objects.create(
+                user=request.user,
+                post=request.POST.get('post')
+            )
+            p.save()
+            html = render_to_string('facebookwall/post.html', {'post': p})
+            return HttpResponse(html)
 
 
 def comment(request):

@@ -1,12 +1,7 @@
-{% extends "index.html" %}
-
-{% block posts %}
-
 <div class="post">
     <div class='post-contents'>
-        <p>asd</p>
-        <p>asdasd</p>
+        <p>{{ post.user }}</p>
+        <p>{{ post.post|linebreaks }}</p>
+        <p>{{ post.date }}</p>
     </div>
 </div>
-
-{% endblock %}

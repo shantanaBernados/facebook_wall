@@ -1,19 +1,25 @@
 $(document).ready(function() {
     $('#status_form').on('submit', function(e) {
-        // e.preventDefault();
-        // var temp = $('#id_post').val();
-        // // console.log(temp);
-        // // alert(temp);
-        // $('#posts').prepend('<p>' + temp + '</p>');
-        $.ajax(
-            url: "/post",
-            type: "POST",
-            data: { the_post : $('#id_post').val() },
+        e.preventDefault();
+        $.ajax({
+            url: 'post',
+            type: "post",
+            data: { 
+                post : $('#id_post').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
+            },
 
             success: function(data) {
-                alert('asdasd')
+                console.log(data);
+                $('#posts').prepend(data);
+                $('#id_post').val('');
+                console.log('success');
+            },
+
+            error: function(error) {
+                console.log('FAIL');
             }
             
-        );
+        });
     });
 });

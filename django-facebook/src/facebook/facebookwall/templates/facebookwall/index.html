@@ -2,20 +2,27 @@
 
 {% block header_content %}
     <div class="float_right" style="">
-        <form id="logout_form" method="post" action='{% url 'logout' %}'>
-            {% csrf_token %}
-            <input type="submit" class="uibutton confirm" value="Logout" />
-        </form>        
+        <table>
+            <tr>
+                <p></p>
+            </tr>
+            <tr>
+                <td class='login_lastrow'>Hi, {{ user }}!</td>
+                <td class='login_lastrow'>
+                    <form id="logout_form" method="POST" action='{% url 'logout' %}'>
+                        {% csrf_token %}
+                        <input type="submit" class="uibutton confirm" value="Logout" />
+                    </form>                            
+                </td>
+            </tr>
+        </table>
     </div>
 {% endblock %}
 
 {% block content %}
 
-    <p>{{ user }}</p>
-
     <div id="status">
-        <form id="status_form" method="post"> 
-        <!-- action='{% url 'post'}'> -->
+        <form id="status_form" method="POST">
             {% csrf_token %}
             {{ form }}
             <input type="submit" class="uibutton confirm" value="Post" />
@@ -26,7 +33,11 @@
         {% block posts %}
         {% endblock %}
         <div id="posts">
-            
+            {% for p in posts %}
+                <p> {{ p.user }} </p>
+                <p> {{ p.post }} </p>
+                <p> {{ p.date }}</p>
+            {% endfor %}
         </div>
     </div> 
 
