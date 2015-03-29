@@ -9,10 +9,15 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['post']
-        widget = {
+        widgets = {
             'post': forms.Textarea(
-                attrs={'placeholder': 'What\'s on your mind?', 
-                       'required': True}
+                attrs={
+                    'required': True, 
+                    'placeholder': 'What\'s on your mind?',
+                    'autofocus': True,
+                    'cols': 55,
+                    'rows': 5
+                }
             ),
         }
 

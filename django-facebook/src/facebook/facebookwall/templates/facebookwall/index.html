@@ -12,7 +12,7 @@
                     <form id="logout_form" method="POST" action='{% url 'logout' %}'>
                         {% csrf_token %}
                         <input type="submit" class="uibutton confirm" value="Logout" />
-                    </form>                            
+                    </form>
                 </td>
             </tr>
         </table>
@@ -24,22 +24,40 @@
     <div id="status">
         <form id="status_form" method="POST">
             {% csrf_token %}
-            {{ form }}
+            <h2>Update Status</h2>
+            {{ form.post }}
             <input type="submit" class="uibutton confirm" value="Post" />
         </form>
-    </div> 
+    </div>
     <div id="posts-container">
-        <p>POSTS</p>
-        {% block posts %}
-        {% endblock %}
-        <div id="posts">
-            {% for p in posts %}
-                <p> {{ p.user }} </p>
-                <p> {{ p.post }} </p>
-                <p> {{ p.date }}</p>
-            {% endfor %}
-        </div>
-    </div> 
+        {% for p in posts %}
+            <div class="posts" id='{{ p.id }}'>
+                <div class='post-contents'>
+                    {% if p.user == user %}
+                        <a href="/" title='Delete post' class='delete_post float_right' id='{{ p.id }}'>x</a>
+                    {% endif %}
+                    <h3> {{ p.user }} </h3>
+                    {{ p.date }}
+                    <br>
+                    <textarea class='post-text' cols="55" disabled> {{ p.post }} </textarea>
+                    <br><a href="/" class='like' id='{{ p.id }}'>{{ p.like_label }}</a>
+                    {% if p.likers %}
+                        <div class='likes' id='{{ post.id }}' title='{{ p.likers }}'>
+                        {% if user in p.likers %}
+                            {% if p.likers|length > 1 %}
+                            You and {{ p.likers|length|add:'-1' }} others liked this.
+                            {% else %}
+                            You liked this.
+                            {% endif %}
+                        {% else %}
+                            {{ p.likers|length }} others liked this.
+                        {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}
 

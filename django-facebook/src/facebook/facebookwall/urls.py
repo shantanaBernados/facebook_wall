@@ -11,6 +11,8 @@ urlpatterns = patterns('',
 
     url(r'^$', views.index, name='index'),
     url(r'^post$', views.post, name='post'),
+    url(r'^like$', views.like, name='like'),
+    url(r'^delete_post$', views.delete_post, name='delete_post')
     #url(r'^comment/$', views.comment, name='comment')
-    
+
 )

@@ -1,7 +1,9 @@
-<div class="post">
+<div class="posts" id='{{ post.id }}'>
     <div class='post-contents'>
-        <p>{{ post.user }}</p>
-        <p>{{ post.post|linebreaks }}</p>
-        <p>{{ post.date }}</p>
+        <a href="/" title='Delete post' class='delete_post float_right' id='{{ post.id }}'>x</a>
+        <h3>{{ post.user }}</h3>
+        {{ post.date }}
+        <br><textarea class='post-text' cols="55" disabled> {{ post.post }} </textarea>
+        <br><a href="/" class='like' id='{{ post.id }}'>Like</a>
     </div>
 </div>

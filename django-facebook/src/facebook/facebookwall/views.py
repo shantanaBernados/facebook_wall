@@ -1,5 +1,7 @@
+import json
+
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.views import generic
 from forms import PostForm, RegisterForm, LoginForm
 from django.contrib.auth.decorators import login_required
@@ -7,7 +9,9 @@ from django.contrib.auth.models import User
 from django.views.generic.edit import FormView, CreateView
 from django.template.loader import render_to_string
 
-from models import Post
+from django.contrib.auth.models import User
+from models import Post, Like
+
 
 # Create your views here.
 
@@ -15,7 +19,13 @@ from models import Post
 @login_required(login_url='/login/')
 def index(request):
     posts = Post.objects.all()
-    print posts
+    for post in posts:
+        # likes = Like.objects.filter(post=post)
+        post.likers = User.objects.filter(like__post=post)
+        if request.user in post.likers:
+            post.like_label = 'Unlike'
+        else:
+            post.like_label = 'Like'   
     return render(request, 'facebookwall/index.html',
                   {'form': PostForm(), 'posts': posts})
 
@@ -25,37 +35,6 @@ class SignupView(CreateView):
     form_class = RegisterForm
     fields = ['username', 'email', 'password']
     success_url = '/login/'
-
-
-def log_sign(request):
-    return render(request, 'facebookwall/login.html',
-                  {'form_log': LoginForm(), 'form_reg': RegisterForm()})
-
-
-# def login(request):
-#     username = request.POST['username']
-#     password = request.POST['password']
-#     user = authenticate(username=username, password=password)
-#     if user is not None:
-#         if user.is_active:
-#             login(request, user)
-
-
-# def signup(request):
-#     print request
-#     username = request.POST.get('username')
-#     password = request.POST['password1']
-#     password2 = request.POST['password2']
-#     email = request.POST.get('email')
-#     # try:
-#     #     User.objects.get(username='test4')
-#     # except:
-#     #     if password == password2:
-#     #         u = User.objects.create_user(username, email, password)
-#     u = User.objects.create_user(username, email, password)
-#     u.save()
-#     login(request, user)
-#     return HttpResponseRedirect('/')
 
 
 def post(request):
@@ -70,13 +49,39 @@ def post(request):
             return HttpResponse(html)
 
 
-def comment(request):
-    pass
+def like(request):
+    if request.is_ajax:
+        post_id = request.GET.get('post_id')
+        post = Post.objects.get(id=post_id)
+        label = ''
+        try:
+            like = Like.objects.create(
+                user=request.user,
+                post=Post.objects.get(id=post_id)
+            )
+            like.save()
+            label = 'Unlike'
+        except:
+            Like.objects.get(post=post, user=request.user).delete()
+            label = 'Like'
+
+        response = {'html': ''}
+        response['label'] = label
+        post.likers = User.objects.filter(like__post=post)
+        if post.likers:
+            html = render_to_string(
+                'facebookwall/likes.html',
+                {'post': post, 'user': request.user}
+            )
+            response['html'] = html
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
+    return HttpResponseRedirect('/')
 
 
-def get_posts(request):
-    pass
+def delete_post(request):
+    if request.is_ajax:
+        Post.objects.get(id=request.GET.get('post_id')).delete()
+        return HttpResponse('Success')
 
-
-def get_comments(request):
-    pass
+    return HttpResponseRedirect('/')

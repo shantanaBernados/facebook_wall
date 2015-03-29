@@ -1,19 +1,12 @@
 body {
-    /*font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
-    font-size: 11px;
-    text-align: left;
-    direction: ltr;
-    color: #141823;
-    line-height: 1.28;
-    overflow-y: scroll;*/
-
     font-family: "lucida grande" ,tahoma,verdana,arial,sans-serif;
     font-size: 11px;
     color: #333333;
+    background-color: #ccc;
 
 }
 
-#header-container {  
+#header-container {
     background-color: #3b5998;
     background-repeat: repeat-x;
     background-size: auto;
@@ -28,15 +21,23 @@ body {
     top:0;
 }
 
-h1 a,
-h1 a:visited,
-h1 a:hover,
-h1 a:active,
-h1 a:link {
+.delete_post {
+    padding-right: 5px;
+    color: #bbb;
+    font-weight: bold;
+}
+
+a:visited,
+a:active,
+a:link {
     text-decoration: none;
-    color: white;
     cursor: pointer;
-    font-size: 30px;
+    font-size: 11px;
+    outline-style: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 .float_right {
@@ -65,8 +66,9 @@ h1 a:link {
 }
 
 #content-container {
+    width: 496px;
+    margin: 0 auto;
     padding: 86px;
-    min-width: 100%;
     border: 0;
 }
 
@@ -75,3 +77,35 @@ h1 a:link {
     font-weight: normal;
     padding-left: 1px;
 }
+
+.posts,
+#status,
+textarea:disabled {
+    background-color: #fff;
+    border-radius: 3px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+textarea {
+    border: 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    resize: none;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+#status {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.post-contents {
+    padding-left: 25px;
+}
+
