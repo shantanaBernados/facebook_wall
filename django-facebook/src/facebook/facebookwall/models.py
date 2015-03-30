@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 class Post(models.Model):
     user = models.ForeignKey(User)
     post = models.TextField()
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now_add=True)
+    edit = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-date']

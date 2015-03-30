@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block header_content %}
     <div class="float_right" style="">
@@ -38,8 +39,18 @@
                         <a href="/" class="edit_post float_right" title='Edit post' id="{{ p.id }}">edit</a>
                         <a href="/" class="save_post float_right" title='Save post' id="{{ p.id }}" hidden>save</a>
                     {% endif %}
-                    <h3> {{ p.user }} </h3>
-                    {{ p.date }}
+                    <div class='post-header'>
+                        <img class='profpic float_left' src="{{ p.picture }}">
+                        <div class='post-header-info'>
+                            <h3>{{ p.user }}</h3>
+                            {{ p.date }}   
+                            {% if p.edit %} 
+                                | Edited 
+                            {% else %}
+                                <span class='edit-tag' hidden>| Edited</span>
+                            {% endif %}
+                        </div>
+                    </div>
                     <br>
                     <textarea class='post-text' cols="55" disabled> {{ p.post }} </textarea>                    
                     <br><a href="/" class='like' id='{{ p.id }}'>{{ p.like_label }}</a>
@@ -47,14 +58,14 @@
                         <div class='likes' id='{{ post.id }}' title='{{ p.likers }}'>
                             {% if user in p.likers %}
                                 {% if p.likers|length > 1 %}
-                                    You and {{ p.likers|length|add:'-1' }} others liked this.
+                                    You and {{ p.likers|length|add:'-1' }} others like this.
                                 {% else %}
-                                    You liked this.
+                                    You like this.
                                 {% endif %}
                             {% elif p.likers|length > 1 %}
-                                {{ p.likers|first }} and {{ p.likers|length|add:-1 }} others liked this.
+                                {{ p.likers|first }} and {{ p.likers|length|add:-1 }} others like this.
                             {% else %}
-                                {{ p.likers|first }} liked this.
+                                {{ p.likers|first }} likes this.
                             {% endif %}
                         </div>
                     {% endif %}

@@ -28,6 +28,10 @@ class IndexView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         posts = Post.objects.all()
         for post in posts:
+            if post.user.id % 2 == 0:
+                post.picture = "/static/images/kawaii.png"
+            else:
+                post.picture = "/static/images/kawaii_mudkip.png"
             post.likers = User.objects.filter(like__post=post)
             if self.user in post.likers:
                 post.like_label = 'Unlike'
@@ -54,6 +58,10 @@ class PostView(generic.View):
             post=request.POST.get('post')
         )
         p.save()
+        if request.user.id % 2 == 0:
+            p.picture = '/static/images/kawaii.png'
+        else:
+            p.picture = '/static/images/kawaii_mudkip.png'
         html = render_to_string('facebookwall/post.html', {'post': p})
         return HttpResponse(html)
 
@@ -91,3 +99,12 @@ class DeletePostView(generic.View):
     def post(self, request):
         Post.objects.get(id=request.POST.get('post_id')).delete()
         return HttpResponse('Success')
+
+
+class SavePostView(generic.View):
+    def post(self, request):
+        p = Post.objects.get(id=request.POST.get('post_id'))
+        p.post = request.POST.get('new_post')
+        p.edit = True
+        p.save()
+        return HttpResponse()

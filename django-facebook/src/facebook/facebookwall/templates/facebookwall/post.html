@@ -1,10 +1,16 @@
 <div class="posts" id='{{ post.id }}'>
     <div class='post-contents'>
         <a href="/" title='Delete post' class='del_post float_right' id='{{ post.id }}'>x</a>
-        <a href="/" class="edit_post float_right" title='Edit post' id="{{ p.id }}">edit</a>
-        <a href="/" class="save_post float_right" title='Save post' id="{{ p.id }}" hidden>save</a>
-        <h3>{{ post.user }}</h3>
-        {{ post.date }}
+        <a href="/" class="edit_post float_right" title='Edit post' id="{{ post.id }}">edit</a>
+        <a href="/" class="save_post float_right" title='Save post' id="{{ post.id }}" hidden>save</a>
+        <div class='post-header'>
+            <img class='profpic float_left' src="{{ post.picture }}">
+            <div class='post-header-info'>
+                <h3>{{ post.user }}</h3>
+                {{ post.date }}    
+                <span class='edit-tag' hidden>| Edited</span>
+            </div>
+        </div>
         <br><textarea class='post-text' cols="55" disabled> {{ post.post }} </textarea>
         <br><a href="/" class='like' id='{{ post.id }}'>Like</a>
     </div>

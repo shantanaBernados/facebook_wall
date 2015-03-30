@@ -16,17 +16,21 @@ $(document).ready(function() {
 
     $('#status_form').on('submit', function(e) {
         e.preventDefault();
-        $.post('post', $(this).serialize(), function(data) {
-            var first_post = $('#posts-container .posts:first');
-            if (first_post.length > 0) {
-                $(data).hide().insertBefore(first_post).fadeIn('slow');
-            } else {
-                $(data).hide().appendTo($('#posts-container')).fadeIn('slow');
-            }
-            $('#posts-container textarea').elastic();
-            $('#id_post').val('');
-            $('#id_post').focus();
-        });
+        if ($('#id_post').val().trim() == "") {
+            alert('STATUS/POST is blank!');
+        } else {
+            $.post('post', $(this).serialize(), function(data) {
+                var first_post = $('#posts-container .posts:first');
+                if (first_post.length > 0) {
+                    $(data).hide().insertBefore(first_post).fadeIn('slow');
+                } else {
+                    $(data).hide().appendTo($('#posts-container')).fadeIn('slow');
+                }
+                $('#posts-container textarea').elastic();
+                $('#id_post').val('');
+                $('#id_post').focus();
+            });    
+        }
     });
 
     $(document).on("click", '.like', function(e){
@@ -49,9 +53,10 @@ $(document).ready(function() {
         e.preventDefault();
         elem = $(this);
         $.post('delete_post', {post_id: elem.attr('id')}, function(data) {
-             $('#' + elem.attr('id')).fadeOut('slow', function() {
+            $('#' + elem.attr('id')).fadeOut('slow', function() {
                 $(this).remove();
             });
+            $('#id_post').focus();
         });
     });
 
@@ -61,17 +66,27 @@ $(document).ready(function() {
         var textarea = elem.parent().find('textarea');
         textarea.removeAttr('disabled').focus();
         elem.next().show();
+        elem.hide();
     });
 
     $(document).on('click', '.save_post', function(e){
         e.preventDefault();
+        elem = $(this);
         var textarea = elem.parent().find('textarea');
-        textarea.prop('disabled', true);
-        $(this).hide();
-        $.post('save_post', {post_id: $(this).attr('id')}, function() {
-            console.log('SUCCESS');
-        });
-         
+        if (textarea.val().trim() == "") {
+            alert('STATUS/POST is blank!');
+        } else {
+            var data = {
+                post_id: $(this).attr('id'),
+                new_post: textarea.val()
+            };
+            $.post('save_post', data, function() {
+                textarea.prop('disabled', true);
+                elem.hide().prev().show();
+                elem.parent().find('.edit-tag').show();
+            });    
+        }
     }); 
+
     $('#posts-container textarea').elastic();
 });
