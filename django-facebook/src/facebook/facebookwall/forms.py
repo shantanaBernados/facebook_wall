@@ -12,7 +12,7 @@ class PostForm(forms.ModelForm):
         widgets = {
             'post': forms.Textarea(
                 attrs={
-                    'required': True, 
+                    'required': True,
                     'placeholder': 'What\'s on your mind?',
                     'autofocus': True,
                     'cols': 55,

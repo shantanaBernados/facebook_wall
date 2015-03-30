@@ -20,12 +20,11 @@ from models import Post, Like
 def index(request):
     posts = Post.objects.all()
     for post in posts:
-        # likes = Like.objects.filter(post=post)
         post.likers = User.objects.filter(like__post=post)
         if request.user in post.likers:
             post.like_label = 'Unlike'
         else:
-            post.like_label = 'Like'   
+            post.like_label = 'Like'
     return render(request, 'facebookwall/index.html',
                   {'form': PostForm(), 'posts': posts})
 

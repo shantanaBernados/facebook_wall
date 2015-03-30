@@ -7,7 +7,7 @@
                 <p></p>
             </tr>
             <tr>
-                <td class='login_lastrow'>Hi, {{ user }}!</td>
+                <td class='login_lastrow'>Hi, {{ user.username }}!</td>
                 <td class='login_lastrow'>
                     <form id="logout_form" method="POST" action='{% url 'logout' %}'>
                         {% csrf_token %}
@@ -22,7 +22,7 @@
 {% block content %}
 
     <div id="status">
-        <form id="status_form" method="POST">
+        <form id="status_form" method="POST" action="">
             {% csrf_token %}
             <h2>Update Status</h2>
             {{ form.post }}
@@ -35,6 +35,7 @@
                 <div class='post-contents'>
                     {% if p.user == user %}
                         <a href="/" title='Delete post' class='delete_post float_right' id='{{ p.id }}'>x</a>
+                        <a href="/" title='Edit post' class='edit_post float_right' id='{{ p.id }}'>edit</a>
                     {% endif %}
                     <h3> {{ p.user }} </h3>
                     {{ p.date }}
@@ -43,15 +44,17 @@
                     <br><a href="/" class='like' id='{{ p.id }}'>{{ p.like_label }}</a>
                     {% if p.likers %}
                         <div class='likes' id='{{ post.id }}' title='{{ p.likers }}'>
-                        {% if user in p.likers %}
-                            {% if p.likers|length > 1 %}
-                            You and {{ p.likers|length|add:'-1' }} others liked this.
+                            {% if user in p.likers %}
+                                {% if p.likers|length > 1 %}
+                                    You and {{ p.likers|length|add:'-1' }} others liked this.
+                                {% else %}
+                                    You liked this.
+                                {% endif %}
+                            {% elif p.likers|length > 1 %}
+                                {{ p.likers|first }} and {{ p.likers|length|add:-1 }} others liked this.
                             {% else %}
-                            You liked this.
+                                {{ p.likers|first }} liked this.
                             {% endif %}
-                        {% else %}
-                            {{ p.likers|length }} others liked this.
-                        {% endif %}
                         </div>
                     {% endif %}
                 </div>

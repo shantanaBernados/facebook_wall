@@ -1,11 +1,13 @@
 <div class='likes' id='{{ post.id }}' title= '{{ post.likers }}'>
 	{% if user in post.likers %}
         {% if post.likers|length > 1 %}
-        	You and {{ post.likers|length|add:'-1' }} others liked this.
+            You and {{ post.likers|length|add:'-1' }} others liked this.
         {% else %}
-        	You liked this.
+            You liked this.
         {% endif %}
+    {% elif post.likers|length > 1 %}
+        {{ post.likers|first }} and {{ post.likers|length|add:-1 }} others liked this.
     {% else %}
-        {{ post.likers|length }} others liked this.
+        {{ post.likers|first }} liked this.
     {% endif %}
 </div>
