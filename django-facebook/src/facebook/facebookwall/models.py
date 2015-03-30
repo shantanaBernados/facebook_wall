@@ -19,5 +19,5 @@ class Like(models.Model):
     date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ['user', 'post']
+        unique_together = ('user', 'post')
         ordering = ['-date']

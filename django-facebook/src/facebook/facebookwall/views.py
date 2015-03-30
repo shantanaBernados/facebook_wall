@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.views import generic
@@ -7,15 +9,23 @@ from django.views.generic.edit import FormView, CreateView
 from django.template.loader import render_to_string
 
 from forms import PostForm, RegisterForm, LoginForm
+from django.contrib.auth.models import User
 from models import Post, Like
+
 
 # Create your views here.
 
 
 @login_required(login_url='/login/')
 def index(request):
-    print PostForm()
     posts = Post.objects.all()
+    for post in posts:
+        # likes = Like.objects.filter(post=post)
+        post.likers = User.objects.filter(like__post=post)
+        if request.user in post.likers:
+            post.like_label = 'Unlike'
+        else:
+            post.like_label = 'Like'   
     return render(request, 'facebookwall/index.html',
                   {'form': PostForm(), 'posts': posts})
 
@@ -42,20 +52,36 @@ def post(request):
 
 
 def like(request):
-    print request
     if request.is_ajax:
-        p_id = request.GET.get('post_id')
-        post = Post.objects.get(id=p_id)
+        post_id = request.GET.get('post_id')
+        post = Post.objects.get(id=post_id)
+        label = ''
         try:
             like = Like.objects.create(
                 user=request.user,
                 post=post
             )
             like.save()
-            return HttpResponse()
+            label = 'Unlike'
         except:
-            like = Like.objects.get(user=request.user, post=post)
-            like.delete()
-            return HttpResponse()
+            Like.objects.get(post=post, user=request.user).delete()
+            label = 'Like'
 
-    return HttpResponseBadRequest()
+        response = {'html': ''}
+        response['label'] = label
+        post.likers = User.objects.filter(like__post=post)
+        if post.likers:
+            html = render_to_string(
+                'facebookwall/likes.html',
+                {'post': post, 'user': request.user}
+            )
+            response['html'] = html
+        return HttpResponse(json.dumps(response), content_type="application/json")
+
+    return HttpResponseRedirect('/')
+
+
+def delete_post(request):
+    if request.is_ajax:
+        Post.objects.get(id=request.GET.get('post_id')).delete()
+        return HttpResponse('Success')
