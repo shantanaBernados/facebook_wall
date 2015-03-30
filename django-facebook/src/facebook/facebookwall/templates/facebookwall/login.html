@@ -2,10 +2,6 @@
 
 {% block header_content %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
 <div class='float_right'>
     <form method="post" action="">
         {% csrf_token %}
@@ -30,11 +26,18 @@
 {% endblock %}
 
 {% block content %}
+    {% if form.errors %}
+        <div class="fberrorbox" style="width: 500px;">  
+            Your username and password didn't match. Please try again.
+        </div>
+    {% endif %}
+    <div id='to_sign_up'>
+        <h2>New to Facebook?</h2>
+        <h3>
+            Click here to 
+            <a href="{% url 'signup' %}">SIGN UP!</a>
+        </h3>
+    </div>
 
-<form action="" method="post">
-    {% csrf_token %}  
-    {{ form_reg.as_p }}
-    <input type="submit" value="Create" />
-</form>
 
 {% endblock %}
