@@ -1,7 +1,8 @@
 <div class="post">
     <div class='post-contents'>
-        <p>{{ post.user }}</p>
-        <p>{{ post.post|linebreaks }}</p>
-        <p>{{ post.date }}</p>
+        {{ post.user }}
+        {{ post.date }}
+        {{ post.post|linebreaks }}
+        <a href="/" class='like_post' id='{{ post.id }}'>Like</a>
     </div>
 </div>

@@ -1,21 +1,21 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.views import generic
-from forms import PostForm, RegisterForm, LoginForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.generic.edit import FormView, CreateView
 from django.template.loader import render_to_string
 
-from models import Post
+from forms import PostForm, RegisterForm, LoginForm
+from models import Post, Like
 
 # Create your views here.
 
 
 @login_required(login_url='/login/')
 def index(request):
+    print PostForm()
     posts = Post.objects.all()
-    print posts
     return render(request, 'facebookwall/index.html',
                   {'form': PostForm(), 'posts': posts})
 
@@ -25,37 +25,6 @@ class SignupView(CreateView):
     form_class = RegisterForm
     fields = ['username', 'email', 'password']
     success_url = '/login/'
-
-
-def log_sign(request):
-    return render(request, 'facebookwall/login.html',
-                  {'form_log': LoginForm(), 'form_reg': RegisterForm()})
-
-
-# def login(request):
-#     username = request.POST['username']
-#     password = request.POST['password']
-#     user = authenticate(username=username, password=password)
-#     if user is not None:
-#         if user.is_active:
-#             login(request, user)
-
-
-# def signup(request):
-#     print request
-#     username = request.POST.get('username')
-#     password = request.POST['password1']
-#     password2 = request.POST['password2']
-#     email = request.POST.get('email')
-#     # try:
-#     #     User.objects.get(username='test4')
-#     # except:
-#     #     if password == password2:
-#     #         u = User.objects.create_user(username, email, password)
-#     u = User.objects.create_user(username, email, password)
-#     u.save()
-#     login(request, user)
-#     return HttpResponseRedirect('/')
 
 
 def post(request):
@@ -69,14 +38,24 @@ def post(request):
             html = render_to_string('facebookwall/post.html', {'post': p})
             return HttpResponse(html)
 
-
-def comment(request):
-    pass
+    return HttpResponseBadRequest()
 
 
-def get_posts(request):
-    pass
+def like(request):
+    print request
+    if request.is_ajax:
+        p_id = request.GET.get('post_id')
+        post = Post.objects.get(id=p_id)
+        try:
+            like = Like.objects.create(
+                user=request.user,
+                post=post
+            )
+            like.save()
+            return HttpResponse()
+        except:
+            like = Like.objects.get(user=request.user, post=post)
+            like.delete()
+            return HttpResponse()
 
-
-def get_comments(request):
-    pass
+    return HttpResponseBadRequest()

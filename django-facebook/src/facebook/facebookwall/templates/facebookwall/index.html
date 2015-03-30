@@ -30,14 +30,18 @@
     </div> 
     <div id="posts-container">
         <p>POSTS</p>
-        {% block posts %}
-        {% endblock %}
         <div id="posts">
             {% for p in posts %}
-                <p> {{ p.user }} </p>
-                <p> {{ p.post }} </p>
-                <p> {{ p.date }}</p>
-            {% endfor %}
+                <div class="post">
+                    <div class='post-contents'>
+                        {{ p.user }}
+                        {{ p.date }}
+                        {{ p.post|linebreaks }}
+                        <a href="/" class='like_post' id='{{ p.id }}'>Like</a>
+                    </div>
+                </div>                        
+            {% endfor %}    
+        
         </div>
     </div> 
 

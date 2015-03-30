@@ -68,10 +68,24 @@ h1 a:link {
     padding: 86px;
     min-width: 100%;
     border: 0;
+    margin-left: -7px;
 }
 
 #header-container label {
     color: #fff;
     font-weight: normal;
     padding-left: 1px;
+}
+
+#content {
+    width: 976px;
+    margin: 0 auto;
+}
+
+.post {
+    background-color: white;
+}
+
+.post-contents {
+    
 }
