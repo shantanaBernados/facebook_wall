@@ -36,12 +36,12 @@
                     {% if p.user == user %}
                         <a href="/" class="del_post float_right" title='Delete post' id="{{ p.id }}">x</a>
                         <a href="/" class="edit_post float_right" title='Edit post' id="{{ p.id }}">edit</a>
+                        <a href="/" class="save_post float_right" title='Save post' id="{{ p.id }}" hidden>save</a>
                     {% endif %}
                     <h3> {{ p.user }} </h3>
                     {{ p.date }}
                     <br>
-                    <textarea class='post-text' cols="55" disabled> {{ p.post }} </textarea>
-                    <input class="float_right" type="button" value="Save" hidden>
+                    <textarea class='post-text' cols="55" disabled> {{ p.post }} </textarea>                    
                     <br><a href="/" class='like' id='{{ p.id }}'>{{ p.like_label }}</a>
                     {% if p.likers %}
                         <div class='likes' id='{{ post.id }}' title='{{ p.likers }}'>

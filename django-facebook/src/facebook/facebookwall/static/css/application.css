@@ -21,6 +21,7 @@ body {
     top:0;
 }
 
+.save_post,
 .edit_post,
 .del_post {
     padding-right: 5px;

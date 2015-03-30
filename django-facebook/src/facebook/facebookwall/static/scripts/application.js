@@ -59,11 +59,19 @@ $(document).ready(function() {
         e.preventDefault();
         elem = $(this);
         var textarea = elem.parent().find('textarea');
-        textarea.removeAttr('disabled');
-        textarea.focus();
-        textarea.next().show();
-
+        textarea.removeAttr('disabled').focus();
+        elem.next().show();
     });
 
+    $(document).on('click', '.save_post', function(e){
+        e.preventDefault();
+        var textarea = elem.parent().find('textarea');
+        textarea.prop('disabled', true);
+        $(this).hide();
+        $.post('save_post', {post_id: $(this).attr('id')}, function() {
+            console.log('SUCCESS');
+        });
+         
+    }); 
     $('#posts-container textarea').elastic();
 });
