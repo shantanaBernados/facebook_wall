@@ -7,7 +7,7 @@
                 <p></p>
             </tr>
             <tr>
-                <td class='login_lastrow'>Hi, {{ user.username }}!</td>
+                <td class='login_lastrow'>Hi, {{ user }}!</td>
                 <td class='login_lastrow'>
                     <form id="logout_form" method="POST" action='{% url 'logout' %}'>
                         {% csrf_token %}
@@ -34,13 +34,14 @@
             <div class="posts" id='{{ p.id }}'>
                 <div class='post-contents'>
                     {% if p.user == user %}
-                        <a href="/" title='Delete post' class='delete_post float_right' id='{{ p.id }}'>x</a>
-                        <a href="/" title='Edit post' class='edit_post float_right' id='{{ p.id }}'>edit</a>
+                        <a href="/" class="del_post float_right" title='Delete post' id="{{ p.id }}">x</a>
+                        <a href="/" class="edit_post float_right" title='Edit post' id="{{ p.id }}">edit</a>
                     {% endif %}
                     <h3> {{ p.user }} </h3>
                     {{ p.date }}
                     <br>
                     <textarea class='post-text' cols="55" disabled> {{ p.post }} </textarea>
+                    <input class="float_right" type="button" value="Save" hidden>
                     <br><a href="/" class='like' id='{{ p.id }}'>{{ p.like_label }}</a>
                     {% if p.likers %}
                         <div class='likes' id='{{ post.id }}' title='{{ p.likers }}'>

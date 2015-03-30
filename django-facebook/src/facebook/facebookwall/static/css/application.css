@@ -22,8 +22,10 @@ body {
 }
 
 .edit_post,
-.delete_post {
+.del_post {
     padding-right: 5px;
+    /*border: 0;*/
+    /*background-color: #fff;*/
     color: #bbb;
     font-weight: bold;
 }

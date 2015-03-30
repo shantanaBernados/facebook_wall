@@ -1,4 +1,19 @@
 $(document).ready(function() {
+
+    var setCSRFToken = function(xhr) {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].indexOf('csrftoken') == 0) {
+                xhr.setRequestHeader('X-CSRFToken', cookies[i].split('=')[1]);
+                break;
+            }
+        }
+    }
+
+    $.ajaxSetup({
+       beforeSend: setCSRFToken
+    });
+
     $('#status_form').on('submit', function(e) {
         e.preventDefault();
         $.post('post', $(this).serialize(), function(data) {
@@ -17,7 +32,7 @@ $(document).ready(function() {
     $(document).on("click", '.like', function(e){
         e.preventDefault();
         elem = $(this);
-        $.get('like', {post_id: elem.attr('id')}, function(data) {
+        $.post('like', {post_id: elem.attr('id')}, function(data) {
             if (data.html != '') {
                 elem.next().remove();
                 $(data.html).hide().insertAfter(elem).fadeIn('slow');
@@ -30,10 +45,10 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '.delete_post', function(e) {
+    $(document).on('click', '.del_post', function(e) {
         e.preventDefault();
         elem = $(this);
-        $.get('delete_post', {post_id: elem.attr('id')}, function(data) {
+        $.post('delete_post', {post_id: elem.attr('id')}, function(data) {
              $('#' + elem.attr('id')).fadeOut('slow', function() {
                 $(this).remove();
             });
@@ -43,7 +58,11 @@ $(document).ready(function() {
     $(document).on('click', '.edit_post', function(e) {
         e.preventDefault();
         elem = $(this);
-        console.log(elem.parent());
+        var textarea = elem.parent().find('textarea');
+        textarea.removeAttr('disabled');
+        textarea.focus();
+        textarea.next().show();
+
     });
 
     $('#posts-container textarea').elastic();

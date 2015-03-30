@@ -9,10 +9,10 @@ urlpatterns = patterns('',
     # url(r'^$', 'facebook.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^$', views.index, name='index'),
-    url(r'^post$', views.post, name='post'),
-    url(r'^like$', views.like, name='like'),
-    url(r'^delete_post$', views.delete_post, name='delete_post')
+    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^post$', views.PostView.as_view(), name='post'),
+    url(r'^like$', views.LikeView.as_view(), name='like'),
+    url(r'^delete_post$', views.DeletePostView.as_view(), name='delete_post')
     #url(r'^comment/$', views.comment, name='comment')
 
 )
