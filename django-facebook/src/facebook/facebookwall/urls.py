@@ -4,7 +4,8 @@ from facebookwall import views
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^post$', views.PostView.as_view(), name='post'),
     url(r'^like$', views.LikeView.as_view(), name='like'),

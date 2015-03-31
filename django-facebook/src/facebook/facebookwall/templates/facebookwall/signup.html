@@ -1,14 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="fbgreybox" style="text-align:center;">  
-	    Sign Me Up
+	<div class="fbgreybox" style="text-align:center; margin-bottom: 10px;">  
+	    Sign Up
 	</div>  
 	<div id="signup-container">
 		<form action="" method="post">
 		    {% csrf_token %}
-		    {{ form.as_p }}
-		    <input type="submit" value="Create" />
+		    {{ form.non_field_errors }}
+		    <table>
+                {% for f in form %}
+                    <tr>
+                        <td class='field-label'>{{ f.label_tag }}</td>
+                        <td>{{ f }}</td>
+                    </tr> 
+                    <tr>
+                   		<td></td>
+                    	<td class='field-error'>{{ f.errors.as_text }}</td>
+                    </tr>              
+                {% endfor %}
+                <tr>
+                	<td></td>
+                    <td><input type="submit" class="uibutton confirm" value="Create" /></td>
+                </tr>
+                <tr>
+                	<td></td>
+                	<td>
+                		<a href="{% url 'login' %}">Already have an account? Click here to Log in.</a>
+                	</td>
+                </tr>   
+            </table>
+
 		</form>	
 	</div>
 {% endblock %}

@@ -22,12 +22,6 @@ class PostForm(forms.ModelForm):
         }
 
 
-class LoginForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password']
-
-
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User

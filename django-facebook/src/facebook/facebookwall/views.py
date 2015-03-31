@@ -1,15 +1,15 @@
 import json
 
-from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
+from django.shortcuts import render
+from django.http import HttpResponse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
-from django.views.generic.edit import FormView, CreateView
+from django.views.generic.edit import CreateView
 from django.template.loader import render_to_string
 
-from forms import PostForm, RegisterForm, LoginForm
+from forms import PostForm, RegisterForm
 from django.contrib.auth.models import User
 from models import Post, Like
 

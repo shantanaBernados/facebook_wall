@@ -131,3 +131,11 @@ textarea:focus {
     background-color: #fff;
     text-align: center;
 }
+
+.field-error {
+    color: red;
+}
+
+.field-label {
+    text-align: right;
+}
