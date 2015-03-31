@@ -14,6 +14,12 @@ $(document).ready(function() {
        beforeSend: setCSRFToken
     });
 
+    $('#posts-container textarea').elastic();
+
+    $(document).on('focus', '#posts-container textarea', function() {
+        $(this).elastic();
+    });
+
     $('#status_form').on('submit', function(e) {
         e.preventDefault();
         if ($('#id_post').val().trim() == "") {
@@ -56,7 +62,6 @@ $(document).ready(function() {
             $('#' + elem.attr('id')).fadeOut('slow', function() {
                 $(this).remove();
             });
-            $('#id_post').focus();
         });
     });
 
@@ -87,6 +92,4 @@ $(document).ready(function() {
             });    
         }
     }); 
-
-    $('#posts-container textarea').elastic();
 });

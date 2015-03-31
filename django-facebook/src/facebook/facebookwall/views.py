@@ -34,8 +34,9 @@ class IndexView(generic.TemplateView):
                 post.picture = "/static/images/kawaii_mudkip.png"
             post.likers = list(User.objects.filter(like__post=post))
             post.names = ''
-            for l in post.likers[0:-1]:
-                post.names = '\n%s\n%s' % (post.names, l.username)
+            for l in post.likers:
+                if not l == self.user:
+                    post.names = '\n%s\n%s' % (post.names, l.username)
             if self.user in post.likers:
                 post.like_label = 'Unlike'
             else:
@@ -89,7 +90,8 @@ class LikeView(generic.View):
         response['label'] = label
         post.likers = list(User.objects.filter(like__post=post))
         post.names = ''
-        for l in post.likers[0:-1]:
+        for l in post.likers:
+            if not l == request.user:
                 post.names = '\n%s\n%s' % (post.names, l.username)
         if post.likers:
             html = render_to_string(
@@ -113,4 +115,4 @@ class SavePostView(generic.View):
         p.post = request.POST.get('new_post')
         p.edit = True
         p.save()
-        return HttpResponse()
+        return HttpResponse('SUCCESS')
