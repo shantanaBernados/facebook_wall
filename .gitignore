@@ -36,7 +36,13 @@
 ehthumbs.db
 Thumbs.db
 
-
-
-db.sqlite3
 *.pyc
+*.pyo
+.installed.cfg
+bin
+develop-eggs
+dist
+downloads
+eggs
+parts
+src/*.egg-info

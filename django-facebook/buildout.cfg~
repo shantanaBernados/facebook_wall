@@ -8,4 +8,14 @@ recipe = zc.recipe.egg
 interpreter = python
 eggs = ${buildout:eggs}
 
+[django]
+recipe = djangorecipe
+project = facebook
+projectegg = facebook
+settings = testsettings
+test = facebook
+eggs = ${buildout:eggs}
+
+[versions]
+django = 1.6.8
 
