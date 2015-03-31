@@ -1,4 +1,4 @@
-<div class='likes' id='{{ post.id }}' title= '{{ post.likers }}'>
+<div class='likes' id='{{ post.id }}' title= '{{ post.names }}'>
 	{% if user in post.likers %}
         {% if post.likers|length > 1 %}
             You and {{ post.likers|length|add:'-1' }} others like this.
@@ -6,8 +6,8 @@
             You like this.
         {% endif %}
     {% elif post.likers|length > 1 %}
-        {{ post.likers|first }} and {{ post.likers|length|add:-1 }} others like this.
+        {{ post.likers|last }} and {{ post.likers|length|add:-1 }} others like this.
     {% else %}
-        {{ post.likers|first }} likes this.
+        {{ post.likers|last }} likes this.
     {% endif %}
 </div>

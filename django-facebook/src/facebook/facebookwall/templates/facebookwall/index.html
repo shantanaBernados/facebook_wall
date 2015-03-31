@@ -55,7 +55,7 @@
                     <textarea class='post-text' cols="55" disabled> {{ p.post }} </textarea>                    
                     <br><a href="/" class='like' id='{{ p.id }}'>{{ p.like_label }}</a>
                     {% if p.likers %}
-                        <div class='likes' id='{{ post.id }}' title='{{ p.likers }}'>
+                        <div class='likes' id='{{ post.id }}' title='{{ p.names }}'>
                             {% if user in p.likers %}
                                 {% if p.likers|length > 1 %}
                                     You and {{ p.likers|length|add:'-1' }} others like this.
@@ -63,9 +63,9 @@
                                     You like this.
                                 {% endif %}
                             {% elif p.likers|length > 1 %}
-                                {{ p.likers|first }} and {{ p.likers|length|add:-1 }} others like this.
+                                {{ p.likers|last }} and {{ p.likers|length|add:-1 }} others like this.
                             {% else %}
-                                {{ p.likers|first }} likes this.
+                                {{ p.likers|last }} likes this.
                             {% endif %}
                         </div>
                     {% endif %}
